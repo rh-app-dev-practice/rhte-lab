@@ -16,7 +16,9 @@
 
 package io.openshift.booster.service;
 
+import java.util.UUID;
+
 import org.springframework.data.repository.CrudRepository;
 
-public interface FruitRepository extends CrudRepository<Fruit, Integer> {
+public interface FruitRepository extends CrudRepository<Fruit, UUID> {
 }

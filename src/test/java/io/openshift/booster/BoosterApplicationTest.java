@@ -63,7 +63,7 @@ public class BoosterApplicationTest {
                 .get()
                 .then()
                 .statusCode(200)
-                .body("id", hasItems(cherry.getId(), apple.getId()))
+                .body("id", hasItems(cherry.getId().toString(), apple.getId().toString()))
                 .body("name", hasItems(cherry.getName(), apple.getName()));
     }
 
@@ -83,14 +83,14 @@ public class BoosterApplicationTest {
                 .get(String.valueOf(cherry.getId()))
                 .then()
                 .statusCode(200)
-                .body("id", is(cherry.getId()))
+                .body("id", is(cherry.getId().toString()))
                 .body("name", is(cherry.getName()));
     }
 
     @Test
     public void testGetNotExisting() {
         requestSpecification()
-                .get("0")
+                .get("11498485-4dc7-46a9-bc79-571493718530")
                 .then()
                 .statusCode(404);
     }
@@ -111,7 +111,7 @@ public class BoosterApplicationTest {
     public void testPostWithWrongPayload() {
         requestSpecification()
                 .contentType(ContentType.JSON)
-                .body(Collections.singletonMap("id", 0))
+                .body(Collections.singletonMap("id", "11498485-4dc7-46a9-bc79-571493718530"))
                 .when()
                 .post()
                 .then()
@@ -148,7 +148,7 @@ public class BoosterApplicationTest {
                 .put(String.valueOf(cherry.getId()))
                 .then()
                 .statusCode(200)
-                .body("id", is(cherry.getId()))
+                .body("id", is(cherry.getId().toString()))
                 .body("name", is("Lemon"));
 
     }
@@ -159,7 +159,7 @@ public class BoosterApplicationTest {
                 .contentType(ContentType.JSON)
                 .body(Collections.singletonMap("name", "Lemon"))
                 .when()
-                .put("/0")
+                .put("/11498485-4dc7-46a9-bc79-571493718530")
                 .then()
                 .statusCode(404);
     }
@@ -169,9 +169,9 @@ public class BoosterApplicationTest {
         Fruit cherry = fruitRepository.save(new Fruit("Cherry"));
         requestSpecification()
                 .contentType(ContentType.JSON)
-                .body(Collections.singletonMap("id", 0))
+                .body(Collections.singletonMap("id", "11498485-4dc7-46a9-bc79-571493718530"))
                 .when()
-                .put(String.valueOf(cherry.getId()))
+                .put(String.valueOf(cherry.getId().toString()))
                 .then()
                 .statusCode(422);
     }
@@ -211,7 +211,7 @@ public class BoosterApplicationTest {
     @Test
     public void testDeleteNotExisting() {
         requestSpecification()
-                .delete("/0")
+                .delete("/11498485-4dc7-46a9-bc79-571493718530")
                 .then()
                 .statusCode(404);
     }

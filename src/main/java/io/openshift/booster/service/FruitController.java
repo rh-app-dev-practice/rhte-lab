@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Objects;
 import java.util.Spliterator;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -49,7 +50,7 @@ public class FruitController {
     }
 
     @GetMapping("/{id}")
-    public Fruit get(@PathVariable("id") Integer id) {
+    public Fruit get(@PathVariable("id") UUID id) {
         verifyFruitExists(id);
 
         return repository.findOne(id);
@@ -75,7 +76,7 @@ public class FruitController {
 
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{id}")
-    public Fruit put(@PathVariable("id") Integer id, @Valid @RequestBody(required = false) Fruit fruit) {
+    public Fruit put(@PathVariable("id") UUID id, @Valid @RequestBody(required = false) Fruit fruit) {
         verifyFruitExists(id);
         verifyCorrectPayload(fruit);
 
@@ -85,15 +86,15 @@ public class FruitController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") Integer id) {
+    public void delete(@PathVariable("id") UUID id) {
         verifyFruitExists(id);
 
         repository.delete(id);
     }
 
-    private void verifyFruitExists(Integer id) {
+    private void verifyFruitExists(UUID id) {
         if (!repository.exists(id)) {
-            throw new NotFoundException(String.format("Fruit with id=%d was not found", id));
+            throw new NotFoundException(String.format("Fruit with id=%s was not found", id.toString()));
         }
     }
 

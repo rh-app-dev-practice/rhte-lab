@@ -16,18 +16,27 @@
 
 package io.openshift.booster.service;
 
+import java.util.UUID;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
+
+import io.openshift.booster.config.PostgresH2UUIDType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@TypeDefs( { @TypeDef( name = "uuid-pgh2", 
+                       typeClass = PostgresH2UUIDType.class, 
+                       defaultForType = UUID.class ) } )
 @Entity
 @Data
 @Builder
@@ -36,8 +45,9 @@ import lombok.NoArgsConstructor;
 public class Fruit {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue( generator = "uuid2" )
+    @GenericGenerator( name = "uuid2", strategy = "uuid2" )
+    private UUID id;
 
     @NotNull
     @Size(min=4, max=50)
