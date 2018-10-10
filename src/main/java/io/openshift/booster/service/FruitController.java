@@ -36,6 +36,8 @@ import java.util.Spliterator;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(value = "/api/fruits")
 public class FruitController {
@@ -65,7 +67,7 @@ public class FruitController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public Fruit post(@RequestBody(required = false) Fruit fruit) {
+    public Fruit post(@Valid @RequestBody(required = false) Fruit fruit) {
         verifyCorrectPayload(fruit);
 
         return repository.save(fruit);
@@ -73,7 +75,7 @@ public class FruitController {
 
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{id}")
-    public Fruit put(@PathVariable("id") Integer id, @RequestBody(required = false) Fruit fruit) {
+    public Fruit put(@PathVariable("id") Integer id, @Valid @RequestBody(required = false) Fruit fruit) {
         verifyFruitExists(id);
         verifyCorrectPayload(fruit);
 
