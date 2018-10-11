@@ -1,0 +1,1 @@
+ALTER TABLE fruit ADD name VARCHAR(50)
